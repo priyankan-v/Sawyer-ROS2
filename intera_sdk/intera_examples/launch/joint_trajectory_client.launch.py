@@ -30,7 +30,7 @@ def generate_launch_description():
             ),
             Node(
                 package="intera_examples",
-                executable="joint_trajectory_client.py",
+                executable="joint_trajectory_client_ros2.py",
                 name="sdk_joint_trajectory_test",
                 output="screen",
                 arguments=["--limb", limb],

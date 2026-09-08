@@ -22,7 +22,7 @@ def generate_launch_description():
             ),
             Node(
                 package="intera_interface",
-                executable="joint_trajectory_action_server.py",
+                executable="joint_trajectory_action_server_ros2.py",
                 name="joint_trajectory_action_server",
                 output="screen",
                 arguments=["--limb", limb, "--mode", mode],

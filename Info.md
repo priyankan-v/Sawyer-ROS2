@@ -79,9 +79,9 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 
 ## Phase 4 - Actions, Parameters, and Execution
 
-* [ ] Port ROS 1 `actionlib` functionality to ROS 2 actions
+* [x] Port ROS 1 `actionlib` functionality to ROS 2 actions for launch-critical trajectory path
 * [ ] Replace dynamic reconfigure with ROS 2 parameters
-* [ ] Port the joint trajectory action server
+* [x] Port the joint trajectory action server for ROS 2 launch/runtime baseline
 * [ ] Port every executable under `intera_interface/scripts`
 * [ ] Port ROS 1 launch files
 * [x] Add initial ROS 2 launch.py equivalents for `intera_examples` and `intera_interface`
@@ -98,7 +98,7 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 
 # Immediate Next Work Items
 
-1. Port runtime script internals from `rospy` to `rclpy` for launch-critical paths (`joint_trajectory_action_server.py`, `joint_trajectory_client.py`, joystick examples).
+1. Extend ROS 2 trajectory server fidelity (goal tolerances, stopped velocity tolerance, and tighter abort conditions).
 
 2. Extend read-only ROS 2 interface coverage (`head`, `navigator`, `camera` state paths).
 

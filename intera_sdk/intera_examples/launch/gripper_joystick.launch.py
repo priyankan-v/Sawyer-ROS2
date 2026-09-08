@@ -29,7 +29,7 @@ def generate_launch_description():
             ),
             Node(
                 package="intera_examples",
-                executable="gripper_joystick.py",
+                executable="gripper_joystick_ros2.py",
                 name="sdk_gripper_control_joystick",
                 output="screen",
                 arguments=["--joystick", joystick],

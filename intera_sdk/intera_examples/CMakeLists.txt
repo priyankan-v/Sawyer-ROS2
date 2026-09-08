@@ -27,10 +27,13 @@ install(PROGRAMS
   scripts/go_to_cartesian_pose.py
   scripts/head_display_image.py
   scripts/joint_trajectory_client.py
+  scripts/joint_trajectory_client_ros2.py
   scripts/joint_trajectory_file_playback.py
   scripts/set_interaction_options.py
   scripts/constrained_zeroG.py
   scripts/gripper_joystick.py
+  scripts/gripper_joystick_ros2.py
+  scripts/joint_position_joystick_ros2.py
   scripts/lights_blink.py
   scripts/camera_display.py
   scripts/send_random_trajectory.py

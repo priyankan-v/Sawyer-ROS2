@@ -29,7 +29,7 @@ def generate_launch_description():
             ),
             Node(
                 package="intera_examples",
-                executable="joint_position_joystick.py",
+                executable="joint_position_joystick_ros2.py",
                 name="rsdk_joint_position_joystick",
                 output="screen",
                 arguments=["--joystick", joystick],

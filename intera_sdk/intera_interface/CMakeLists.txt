@@ -14,6 +14,7 @@ ament_python_install_package(intera_motion_interface PACKAGE_DIR src/intera_moti
 install(PROGRAMS
   scripts/home_joints.py
   scripts/joint_trajectory_action_server.py
+  scripts/joint_trajectory_action_server_ros2.py
   scripts/calibrate_arm.py
   scripts/io_config_editor.py
   scripts/send_urdf_fragment.py
