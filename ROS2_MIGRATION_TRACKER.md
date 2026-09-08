@@ -27,6 +27,15 @@ This tracker converts the high-level plan into concrete implementation gates.
   - intera_examples/src/intera_external_devices/joystick_ros2.py
 - Updated ROS 2 launch files to execute ROS 2-native runtime scripts.
 - Rebuilt intera_interface and intera_examples and revalidated `--show-args` launch discovery.
+- Hardened ROS 2 trajectory action server behavior with:
+  - goal validation for point dimensions and monotonic time
+  - path tolerance violation aborts (`PATH_TOLERANCE_VIOLATED`)
+  - goal tolerance + stopped velocity tolerance checks (`GOAL_TOLERANCE_VIOLATED`)
+  - launch argument `stopped_velocity_tolerance` for runtime tuning
+- Added next runtime-layer ROS 2 modules:
+  - intera_interface/src/intera_interface/robot_enable_ros2.py
+  - intera_interface/src/intera_interface/limb_ros2.py
+  - exports in intera_interface/src/intera_interface/__init__.py
 
 ## Package Status Matrix
 
@@ -36,7 +45,7 @@ This tracker converts the high-level plan into concrete implementation gates.
 | intera_common/intera_motion_msgs | ROS 2 interface metadata/build ported | Verify interfaces resolve dependency on intera_core_msgs |
 | intera_common/intera_tools_description | ROS 2 metadata/build ported | Validate xacro and install tree in ROS 2 workspace |
 | sawyer_robot/sawyer_description | ROS 2 metadata/build and launch ported | Validate full desktop RViz2 rendering on target machine |
-| intera_sdk/intera_interface | ROS 2 metadata/build, launch, and launch-critical runtime path ported | Extend action behavior parity and continue script-by-script ports |
+| intera_sdk/intera_interface | ROS 2 metadata/build, launch, launch-critical runtime path, and next runtime-layer modules ported | Integrate new ROS2 classes through script stack and continue parity hardening |
 | intera_sdk/intera_examples | ROS 2 metadata/build, launch, and launch-critical runtime path ported | Continue remaining runtime example ports and hardware-risk sequencing |
 
 ## Correct Migration Gates
@@ -81,6 +90,6 @@ This tracker converts the high-level plan into concrete implementation gates.
 ## Next file targets
 
 - intera_sdk/intera_interface/src/intera_joint_trajectory_action/joint_trajectory_action.py
-- intera_sdk/intera_interface/src/intera_interface/robot_enable.py
-- intera_sdk/intera_interface/src/intera_interface/limb.py
 - intera_sdk/intera_interface/src/intera_io/io_interface.py
+- intera_sdk/intera_interface/src/intera_io/io_command.py
+- intera_sdk/intera_examples/scripts/joint_trajectory_file_playback.py

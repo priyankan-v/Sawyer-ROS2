@@ -71,9 +71,9 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 * [ ] Port head interface
 * [ ] Port navigator interface
 * [ ] Port camera interface
-* [ ] Port safety and robot-enable functionality
+* [x] Add ROS 2 baseline for safety and robot-enable functionality (`robot_enable_ros2.py`)
 * [ ] Port IK/FK services
-* [ ] Port `limb.py` in stages
+* [x] Add ROS 2 baseline limb runtime layer (`limb_ros2.py`) with command/state and IK/FK client wrappers
 * [ ] Introduce position control
 * [ ] Port the motion interface
 
@@ -98,7 +98,7 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 
 # Immediate Next Work Items
 
-1. Extend ROS 2 trajectory server fidelity (goal tolerances, stopped velocity tolerance, and tighter abort conditions).
+1. Integrate `LimbROS2` and `RobotEnableROS2` into selected launch-critical scripts where safe.
 
 2. Extend read-only ROS 2 interface coverage (`head`, `navigator`, `camera` state paths).
 
