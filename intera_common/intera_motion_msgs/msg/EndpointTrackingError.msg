@@ -1,6 +1,6 @@
 # This message will be published from the TrackingController
 # It contains the endpoint tracking error data for diagnostics.
-Header header
+std_msgs/Header header
 
 # ID for the trajectory.
 uint32 trajectory_id

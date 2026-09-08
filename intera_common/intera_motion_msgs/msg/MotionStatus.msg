@@ -1,5 +1,5 @@
 # motion status
-Header header
+std_msgs/Header header
 string motion_status
 string current_trajectory
 uint32 current_waypoint

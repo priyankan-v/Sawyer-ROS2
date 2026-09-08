@@ -1,5 +1,5 @@
 ## URDF Configuration
-time time      # time the message was created, serves as a sequence number
+builtin_interfaces/Time time      # time the message was created, serves as a sequence number
                # time should be changed only when the content changes.
 string link    # parent link name
 string joint   # joint to configure

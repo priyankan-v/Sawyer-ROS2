@@ -1,15 +1,15 @@
 float32 pan
-bool isTurning
+bool is_turning
 
-# isBlocked will be true during active cancellation when the desired head position
+# is_blocked will be true during active cancellation when the desired head position
 # can not be reached because of j0's current position
-bool isBlocked
+bool is_blocked
 
-# panMode will be one of
+# pan_mode will be one of
 uint8 PASSIVE_MODE             = 0
 uint8 ACTIVE_MODE              = 1
 uint8 ACTIVE_CANCELLATION_MODE = 2
 #
-uint8 panMode
+uint8 pan_mode
 
 

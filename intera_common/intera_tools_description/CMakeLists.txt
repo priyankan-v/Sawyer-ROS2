@@ -1,16 +1,15 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.8)
 project(intera_tools_description)
 
-## Find catkin macros and libraries
-find_package(catkin REQUIRED)
+find_package(ament_cmake REQUIRED)
 
 #############
 ## Install ##
 #############
 
-catkin_package()
-
 foreach(dir meshes urdf)
    install(DIRECTORY ${dir}/
-      DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+   DESTINATION share/${PROJECT_NAME}/${dir})
 endforeach(dir)
+
+ament_package()

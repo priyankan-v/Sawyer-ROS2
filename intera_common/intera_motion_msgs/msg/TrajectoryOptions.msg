@@ -20,7 +20,7 @@ bool nso_check_end_offset
 TrackingOptions tracking_options
 
 # Desired trajectory end time, ROS timestamp
-time end_time
+builtin_interfaces/Time end_time
 
 # The rate in seconds that the path is interpolated and returned back to the user
 # No interpolation will happen if set to zero

@@ -1,3 +1,3 @@
-time timestamp
+builtin_interfaces/Time timestamp
 float64 value
-bool isInputOnly
+bool is_input_only

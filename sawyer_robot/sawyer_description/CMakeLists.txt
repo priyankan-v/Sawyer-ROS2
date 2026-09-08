@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.8)
 
 project(sawyer_description)
 
-find_package(catkin REQUIRED)
+find_package(ament_cmake REQUIRED)
 
-catkin_package()
-
-foreach(dir config meshes params urdf)
+foreach(dir config launch meshes params urdf)
    install(DIRECTORY ${dir}/
-      DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+   DESTINATION share/${PROJECT_NAME}/${dir})
 endforeach(dir)
+
+ament_package()

@@ -18,7 +18,7 @@
 # states.
 
 
-Header header
+std_msgs/Header header
 
 string[]  name
 float64[] commanded_position
@@ -40,4 +40,4 @@ float64[] gravity_only
 float64[] interaction_torque
 float64[] hysteresis_model_effort
 float64[] crosstalk_model_effort
-float64   hystState
+float64   hyst_state

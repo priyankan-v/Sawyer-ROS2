@@ -6,8 +6,8 @@ string CALIBRATION_STOP=stop
 ---
 # result
 bool result
-string statusId
-# possible values for statusId are:
+string status_id
+# possible values for status_id are:
 string SUCCESS=Success
 string STOPPED=Stopped
 string GENERIC_FAILURE=calibrationFailure
@@ -19,6 +19,6 @@ string PLANNER_FAILURE=plannerFailure
 
 ---
 # feedback
-string currentState
-uint32 numberOfPoses
-uint32 currentPoseNumber
+string current_state
+uint32 number_of_poses
+uint32 current_pose_number

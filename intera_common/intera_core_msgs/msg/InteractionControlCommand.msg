@@ -1,18 +1,18 @@
 # Message sets the interaction (impedance/force) control on or off
 # It also contains desired cartesian stiffness K, damping D, and force values
 
-Header header
+std_msgs/Header header
 bool      interaction_control_active
 
 ## Cartesian Impedance Control Parameters
 # Stiffness units are (N/m) for first 3 and (Nm/rad) for second 3 values
-float64[] K_impedance
+float64[] k_impedance
 # Force certain directions to have maximum possible impedance for a given pose
 bool[] max_impedance
 # Damping units are (Ns/m) for first 3 and (Nms/rad) for the second 3 values
-float64[] D_impedance
+float64[] d_impedance
 # Joint Nullspace stiffness units are in (Nm/rad) (length == number of joints)
-float64[] K_nullspace
+float64[] k_nullspace
 
 ## Parameters for force control or impedance control with force limit
 # If in force mode, this is the vector of desired forces/torques
@@ -48,7 +48,7 @@ uint8 FORCE_MODE=2
 # forces/torques do not exceed force_command.
 uint8 IMPEDANCE_WITH_FORCE_LIMIT_MODE=3
 # Force with motion bounds: force control while ensuring the current
-# pose/velocities do not exceed forceMotionThreshold (currenetly defined in yaml)
+# pose/velocities do not exceed force_motion_threshold (currenetly defined in yaml)
 uint8 FORCE_WITH_MOTION_LIMIT_MODE=4
 
 # Specifies the interaction control mode for each Cartesian dimension (6)
@@ -60,8 +60,8 @@ uint8[] interaction_control_mode
 
 ## Parameters for Constrained Zero-G Behaviors
 # Allow for arbitrary rotational displacements from the current orientation
-# for constrained zero-G. Setting 'rotations_for_constrained_zeroG = True'
+# for constrained zero-G. Setting 'rotations_for_constrained_zero_g = True'
 # will disable the rotational stiffness field which limits rotational
 # displacements to +/- 82.5 degree.
 # NOTE: it will be only enabled for a stationary reference orientation
-bool rotations_for_constrained_zeroG
+bool rotations_for_constrained_zero_g

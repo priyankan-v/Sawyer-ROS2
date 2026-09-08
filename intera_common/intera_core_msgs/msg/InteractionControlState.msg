@@ -3,13 +3,13 @@
 # whether the controller is active, current impedence parameters,
 # and the commanded endpoint forces by the interaction controller
 
-Header header
+std_msgs/Header header
 
 bool      interaction_control_active
 
 ## Impedance Control Parameters
-float64[] K_impedance
-float64[] D_impedance
+float64[] k_impedance
+float64[] d_impedance
 
 ## Force Control Parameters
 # Vector of forces (wrench) (N and Nm) commanded by the interaction controller
@@ -23,4 +23,4 @@ bool disable_reference_resetting
 
 ## Parameters for Constrained Zero-G Behaviors
 # Please refer to InteractionControlCommand.msg for more details
-bool rotations_for_constrained_zeroG
+bool rotations_for_constrained_zero_g

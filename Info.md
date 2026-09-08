@@ -1,37 +1,54 @@
-dependencies: git-core python-argparse python-wstool python-vcstools python-rosdep ros-melodic-control-msgs ros-melodic-joystick-drivers ros-melodic-xacro ros-melodic-tf2-ros ros-melodic-rviz ros-melodic-cv-bridge ros-melodic-actionlib ros-melodic-actionlib-msgs ros-melodic-dynamic-reconfigure ros-melodic-trajectory-msgs ros-melodic-rospy-message-converter
+Sawyer ROS 2 Migration Notes
 
-SDK Installation: git-core python-argparse python-wstool python-vcstools python-rosdep ros-melodic-control-msgs ros-melodic-joystick-drivers ros-melodic-xacro ros-melodic-tf2-ros ros-melodic-rviz ros-melodic-cv-bridge ros-melodic-actionlib ros-melodic-actionlib-msgs ros-melodic-dynamic-reconfigure ros-melodic-trajectory-msgs ros-melodic-rospy-message-converter
+ROS 1 dependencies currently used by the SDK:
+git-core python-argparse python-wstool python-vcstools python-rosdep ros-melodic-control-msgs ros-melodic-joystick-drivers ros-melodic-xacro ros-melodic-tf2-ros ros-melodic-rviz ros-melodic-cv-bridge ros-melodic-actionlib ros-melodic-actionlib-msgs ros-melodic-dynamic-reconfigure ros-melodic-trajectory-msgs ros-melodic-rospy-message-converter
 
-Initialize your SDK environment: ./intera.sh
+Current ROS 1 SDK bootstrap:
+./intera.sh
 
-the above are used and needed for operate Sawyer robot.
+Critical architecture constraint:
+intera.sh sets ROS_MASTER_URI toward Sawyer, so the workstation SDK talks to the robot's ROS 1 master. Converting rospy to rclpy alone does not make physical Sawyer ROS 2-native. A ROS 1 to ROS 2 bridge/gateway stage is required before commanding hardware from ROS 2 nodes.
 
-Primary goal is to move this code base to ros 2.
-the following are the tasks need to be done to achieve this goal.
+Migration execution order (safety-first):
 
-"A particularly important conclusion is built into the plan: the current intera.sh sets ROS_MASTER_URI toward Sawyer, so the Intera workstation SDK is communicating with a ROS 1 master on the robot. Therefore, simply converting rospy → rclpy will not make the physical Sawyer a ROS 2 robot. The plan deliberately introduces a ROS 1/ROS 2 bridge or gateway stage before trying to command the real arm."
+Phase 0 - Interface and build foundation
+[x] Port intera_core_msgs
+[x] Port intera_motion_msgs
+[x] Port intera_tools_description
+[x] Port sawyer_description package metadata/build files
+[x] Validate colcon build for first package batch
+[ ] Validate Sawyer visualization in RViz2
 
-Create the ROS 2 workspace and migration branches
-Port intera_core_msgs
-Port intera_motion_msgs
-Port intera_tools_description
-Port sawyer_description and get Sawyer into RViz2
-Establish ROS 1 ↔ ROS 2 real-robot communication
-Port utility modules
-Port read-only robot interfaces
-Port I/O, gripper, head, navigator, camera
-Port safety/robot enable functionality
-Port limb.py in stages
-Port IK/FK services
-Introduce position control
-Port the motion interface
-Port ROS 1 actionlib to ROS 2 actions
-Replace dynamic reconfigure with ROS 2 parameters
-Port the joint trajectory action server
-Port every intera_interface/scripts executable
-Replace/redesign intera.sh
-Port intera_examples in increasing order of hardware risk
-Port ROS 1 launch files
-Replace .rosinstall/wstool workflow with .repos/vcs
-Add QoS, executor, timing, shutdown, and parameter design
-Run staged simulation/mock/read-only/hardware tests
+Phase 1 - ROS 1/ROS 2 coexistence
+[ ] Establish ROS 1 to ROS 2 real-robot communication
+[ ] Replace/redesign intera.sh for dual-environment setup
+[ ] Replace .rosinstall/wstool workflow with .repos/vcs
+
+Phase 2 - Low-risk software ports
+[ ] Port utility modules
+[ ] Port read-only robot interfaces
+[ ] Add QoS, executor, timing, shutdown, and parameter design
+
+Phase 3 - Device and control interfaces
+[ ] Port I/O, gripper, head, navigator, camera
+[ ] Port safety/robot enable functionality
+[ ] Port IK/FK services
+[ ] Port limb.py in stages
+[ ] Introduce position control
+[ ] Port the motion interface
+
+Phase 4 - Actions, parameters, and execution
+[ ] Port ROS 1 actionlib to ROS 2 actions
+[ ] Replace dynamic reconfigure with ROS 2 parameters
+[ ] Port the joint trajectory action server
+[ ] Port every intera_interface/scripts executable
+[ ] Port ROS 1 launch files
+
+Phase 5 - Examples and validation
+[ ] Port intera_examples in increasing order of hardware risk
+[ ] Run staged simulation, mock, read-only, and hardware tests
+
+Immediate next work items:
+1) Validate Sawyer visualization path in RViz2 (xacro + robot_state_publisher + rviz2).
+2) Port URDF and meshes packages for RViz2 visualization without hardware motion.
+3) Stand up a ros1_bridge or custom gateway path for real robot communications.
