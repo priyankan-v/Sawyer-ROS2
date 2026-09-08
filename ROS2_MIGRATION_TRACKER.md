@@ -10,6 +10,8 @@ This tracker converts the high-level plan into concrete implementation gates.
 - Converted intera_tools_description to ROS 2 ament package metadata/build rules.
 - Converted sawyer_description to ROS 2 ament package metadata/build rules.
 - Built and validated all four migrated packages with colcon on ROS 2 Humble.
+- Added a ROS 2 Sawyer visualization launch entrypoint and RViz2 config.
+- Validated xacro generation and robot_state_publisher startup from the ROS 2 launch path.
 
 ## Package Status Matrix
 
@@ -18,7 +20,7 @@ This tracker converts the high-level plan into concrete implementation gates.
 | intera_common/intera_core_msgs | ROS 2 interface metadata/build ported | Verify action/message/service generation with colcon |
 | intera_common/intera_motion_msgs | ROS 2 interface metadata/build ported | Verify interfaces resolve dependency on intera_core_msgs |
 | intera_common/intera_tools_description | ROS 2 metadata/build ported | Validate xacro and install tree in ROS 2 workspace |
-| sawyer_robot/sawyer_description | ROS 2 metadata/build ported | Validate RViz2 visualization path |
+| sawyer_robot/sawyer_description | ROS 2 metadata/build and launch ported | Validate full desktop RViz2 rendering on target machine |
 | intera_sdk/intera_interface | Not started | Start with read-only APIs and parameter design |
 | intera_sdk/intera_examples | Not started | Delay until bridge and safety interfaces are ready |
 
@@ -62,7 +64,6 @@ This tracker converts the high-level plan into concrete implementation gates.
 
 ## Next file targets
 
-- intera_common/intera_tools_description/package.xml
-- intera_common/intera_tools_description/CMakeLists.txt
-- sawyer_robot/sawyer_description/package.xml
-- sawyer_robot/sawyer_description/CMakeLists.txt
+- intera_sdk/intera_interface/src/intera_interface
+- intera_sdk/intera_interface/scripts
+- intera_sdk/intera_examples/scripts
