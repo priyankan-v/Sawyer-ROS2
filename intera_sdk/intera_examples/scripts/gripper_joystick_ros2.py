@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
 
 import rclpy
 from rclpy.node import Node
 
-from intera_core_msgs.msg import IOComponentCommand
+from intera_io.io_interface_ros2 import IODeviceInterfaceROS2
 
 from intera_external_devices.joystick_ros2 import (
     LogitechControllerROS2,
@@ -27,11 +26,12 @@ class GripperJoystickROS2(Node):
         self._gripper_name = f"{limb}_gripper"
         self._position = self.MAX_POSITION
         self._velocity = 1.0
-
-        self._pub = self.create_publisher(
-            IOComponentCommand,
-            f"/io/end_effector/{self._gripper_name}/command",
-            10,
+        self._io = IODeviceInterfaceROS2(
+            node=self,
+            node_name="end_effector",
+            dev_name=self._gripper_name,
+            require_config=False,
+            require_state=False,
         )
 
         if joystick_type == "xbox":
@@ -47,20 +47,7 @@ class GripperJoystickROS2(Node):
         self.create_timer(0.01, self._tick)
 
     def _publish_signal_set(self, signal_name, signal_type, value):
-        cmd = IOComponentCommand()
-        cmd.time = self.get_clock().now().to_msg()
-        cmd.op = "set"
-        cmd.args = json.dumps(
-            {
-                "signals": {
-                    signal_name: {
-                        "format": {"type": signal_type},
-                        "data": [value],
-                    }
-                }
-            }
-        )
-        self._pub.publish(cmd)
+        self._io.set_signal_value(signal_name, value, signal_type=signal_type)
 
     def _set_position(self, target):
         self._position = max(self.MIN_POSITION, min(self.MAX_POSITION, target))

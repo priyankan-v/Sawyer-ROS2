@@ -12,5 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .io_interface import IODeviceInterface
-from .io_command import IOCommand
+try:
+    from .io_interface import IODeviceInterface
+    from .io_command import IOCommand
+except Exception:
+    # ROS 2 environments may not have rospy-based modules available.
+    IODeviceInterface = None
+    IOCommand = None
+
+from .io_interface_ros2 import IODeviceInterfaceROS2, IOInterfaceROS2
+from .io_command_ros2 import IOCommandROS2, SetCommandROS2

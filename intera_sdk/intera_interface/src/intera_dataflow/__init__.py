@@ -12,5 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .wait_for import wait_for
+try:
+	from .wait_for import wait_for
+except Exception:
+	wait_for = None
+
+from .wait_for_ros2 import wait_for_ros2
 from .signals import Signal

@@ -13,8 +13,13 @@
 # limitations under the License.
 
 from .getch import getch
-from .joystick import (
-    XboxController,
-    LogitechController,
-    PS3Controller,
-)
+try:
+    from .joystick import (
+        XboxController,
+        LogitechController,
+        PS3Controller,
+    )
+except Exception:
+    XboxController = None
+    LogitechController = None
+    PS3Controller = None

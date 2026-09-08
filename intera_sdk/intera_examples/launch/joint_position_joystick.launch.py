@@ -7,6 +7,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     joystick = LaunchConfiguration("joystick")
     dev = LaunchConfiguration("dev")
+    limb = LaunchConfiguration("limb")
+    auto_enable = LaunchConfiguration("auto_enable")
 
     return LaunchDescription(
         [
@@ -20,6 +22,16 @@ def generate_launch_description():
                 default_value="/dev/input/js0",
                 description="Joystick device path.",
             ),
+            DeclareLaunchArgument(
+                "limb",
+                default_value="right",
+                description="Target limb name.",
+            ),
+            DeclareLaunchArgument(
+                "auto_enable",
+                default_value="false",
+                description="Enable robot on startup (true/false).",
+            ),
             Node(
                 package="joy",
                 executable="joy_node",
@@ -32,7 +44,7 @@ def generate_launch_description():
                 executable="joint_position_joystick_ros2.py",
                 name="rsdk_joint_position_joystick",
                 output="screen",
-                arguments=["--joystick", joystick],
+                arguments=["--joystick", joystick, "--limb", limb, "--auto-enable", auto_enable],
             ),
         ]
     )

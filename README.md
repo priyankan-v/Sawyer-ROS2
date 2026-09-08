@@ -51,41 +51,48 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 ## Phase 1 - ROS 1 / ROS 2 Coexistence
 
 * [ ] Establish ROS 1-to-ROS 2 real-robot communication
+* [x] Create ROS 1-to-ROS 2 bridge bring-up plan and smoke-test script
+* [ ] Install ROS 1 + `ros1_bridge` prerequisites on bridge host and run live telemetry smoke test
 * [ ] Replace or redesign `intera.sh` for dual-environment setup
 * [ ] Replace `.rosinstall` / `wstool` workflow with `.repos` / `vcs`
 
 ## Phase 2 - Low-Risk Software Ports
 
-* [ ] Port utility modules
-* [ ] Port read-only robot interfaces
+* [x] Port build metadata (`package.xml`, `CMakeLists.txt`, `setup.py`) for `intera_interface` and `intera_examples` to ROS 2 ament
+* [x] Port utility modules (ROS2-safe package exports, wait/dataflow, and script-level utility ports)
+* [x] Port read-only robot interfaces (RobotParams/JointLimits/head/navigator/camera baselines)
+* [x] Start ROS 2 read-only ports: `RobotParams`, `JointLimits`, `wait_for` utility
 * [ ] Add QoS, executor, timing, shutdown, and parameter design
 
 ## Phase 3 - Device and Control Interfaces
 
-* [ ] Port I/O interface
-* [ ] Port gripper interface
-* [ ] Port head interface
-* [ ] Port navigator interface
-* [ ] Port camera interface
-* [ ] Port safety and robot-enable functionality
-* [ ] Port IK/FK services
-* [ ] Port `limb.py` in stages
-* [ ] Introduce position control
+* [x] Add ROS 2 baseline I/O interface modules (`io_interface_ros2.py`, `io_command_ros2.py`)
+* [x] Add ROS 2 baseline gripper interface (`gripper_ros2.py`)
+* [x] Add ROS 2 baseline head interface (`head_ros2.py`) and example (`head_wobbler_ros2.py`)
+* [x] Add ROS 2 baseline navigator interface (`navigator_ros2.py`) and example (`navigator_io_ros2.py`)
+* [x] Add ROS 2 baseline camera interface (`camera_ros2.py`) and example (`camera_display_ros2.py`)
+* [x] Add ROS 2 baseline for safety and robot-enable functionality (`robot_enable_ros2.py`)
+* [x] Add ROS 2 baseline cuff interface (`cuff_ros2.py`)
+* [x] Port IK/FK service clients via `LimbROS2` wrappers (`ik_request`, `fk_request`)
+* [x] Add ROS 2 baseline limb runtime layer (`limb_ros2.py`) with command/state and IK/FK client wrappers
+* [x] Introduce position control baseline (`LimbROS2.set_joint_positions`, joystick and trajectory flows)
 * [ ] Port the motion interface
 
 ## Phase 4 - Actions, Parameters, and Execution
 
-* [ ] Port ROS 1 `actionlib` functionality to ROS 2 actions
+* [x] Port ROS 1 `actionlib` functionality to ROS 2 actions for launch-critical trajectory path
 * [ ] Replace dynamic reconfigure with ROS 2 parameters
-* [ ] Port the joint trajectory action server
-* [ ] Port every executable under `intera_interface/scripts`
-* [ ] Port ROS 1 launch files
+* [x] Port the joint trajectory action server for ROS 2 launch/runtime baseline
+* [x] Port every executable under `intera_interface/scripts` (ROS2 counterparts added for enable/home/calibrate/io-config/urdf)
+* [x] Port ROS 1 launch files used in launch-critical paths
+* [x] Add initial ROS 2 launch.py equivalents for `intera_examples` and `intera_interface`
 
 ## Phase 5 - Examples and Validation
 
-* [ ] Port `intera_examples` in increasing order of hardware risk
+* [x] Port additional medium-risk ROS2 gripper examples: `gripper_keyboard_ros2.py`, `gripper_cuff_control_ros2.py`
+* [x] Port additional ROS2 examples: `lights_blink_ros2.py`, `joint_trajectory_file_playback_ros2.py`
 * [ ] Run staged simulation tests
-* [ ] Run mock-interface tests
+* [x] Run mock-interface tests (host smoke validation for ROS2 scripts with hardware-gated failure classification)
 * [ ] Run read-only hardware tests
 * [ ] Run controlled hardware motion tests
 
@@ -93,8 +100,10 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 
 # Immediate Next Work Items
 
-1. Port ROS 1 launch files for remaining packages and create ROS 2 launch replacements.
+1. Complete bridge host prerequisites and execute `tools/bridge/ros1_ros2_bridge_smoke.sh` end-to-end with live ROS1+ROS2 processes.
 
-2. Port utility modules and read-only robot interfaces in `intera_interface`.
+2. Run hardware validation for ROS2 interfaces/examples and close parity gaps (`head/navigator/camera/gripper/cuff/lights`, plus trajectory playback).
 
-3. Establish a `ros1_bridge` or custom gateway path for communication with the physical Sawyer robot.
+3. Port or redesign the remaining motion-interface stack (`intera_motion_interface`) for ROS2-native runtime.
+
+4. Complete QoS/executor/parameter hardening pass for runtime nodes beyond baseline defaults.

@@ -30,14 +30,14 @@ class RobotParamsROS2:
         ros2_name = self._to_ros2_param_name(ros1_name)
         if not self._node.has_parameter(ros2_name):
             self._node.get_logger().warning(
-                "Parameter '%s' not declared. Returning default.", ros2_name
+                f"Parameter '{ros2_name}' not declared. Returning default."
             )
             return default
 
         parameter = self._node.get_parameter(ros2_name)
         if parameter.type_ == Parameter.Type.NOT_SET:
             self._node.get_logger().warning(
-                "Parameter '%s' is not set. Returning default.", ros2_name
+                f"Parameter '{ros2_name}' is not set. Returning default."
             )
             return default
 

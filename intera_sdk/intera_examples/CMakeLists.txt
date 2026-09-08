@@ -13,14 +13,18 @@ install(PROGRAMS
   scripts/joint_position_waypoints.py
   scripts/joint_torque_springs.py
   scripts/gripper_cuff_control.py
+  scripts/gripper_cuff_control_ros2.py
   scripts/head_wobbler.py
+  scripts/head_wobbler_ros2.py
   scripts/joint_recorder.py
   scripts/fk_service_client.py
   scripts/joint_velocity_wobbler.py
   scripts/navigator_io.py
+  scripts/navigator_io_ros2.py
   scripts/joint_position_joystick.py
   scripts/joint_position_keyboard.py
   scripts/gripper_keyboard.py
+  scripts/gripper_keyboard_ros2.py
   scripts/stop_motion_trajectory.py
   scripts/go_to_joint_angles_in_contact.py
   scripts/joint_position_file_playback.py
@@ -29,6 +33,8 @@ install(PROGRAMS
   scripts/joint_trajectory_client.py
   scripts/joint_trajectory_client_ros2.py
   scripts/joint_trajectory_file_playback.py
+  scripts/joint_trajectory_file_playback_ros2.py
+  scripts/lights_blink_ros2.py
   scripts/set_interaction_options.py
   scripts/constrained_zeroG.py
   scripts/gripper_joystick.py
@@ -36,6 +42,7 @@ install(PROGRAMS
   scripts/joint_position_joystick_ros2.py
   scripts/lights_blink.py
   scripts/camera_display.py
+  scripts/camera_display_ros2.py
   scripts/send_random_trajectory.py
   scripts/send_traj_from_file.py
 

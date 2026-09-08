@@ -13,12 +13,17 @@ ament_python_install_package(intera_motion_interface PACKAGE_DIR src/intera_moti
 
 install(PROGRAMS
   scripts/home_joints.py
+  scripts/home_joints_ros2.py
   scripts/joint_trajectory_action_server.py
   scripts/joint_trajectory_action_server_ros2.py
   scripts/calibrate_arm.py
+  scripts/calibrate_arm_ros2.py
   scripts/io_config_editor.py
+  scripts/io_config_editor_ros2.py
   scripts/send_urdf_fragment.py
+  scripts/send_urdf_fragment_ros2.py
   scripts/enable_robot.py
+  scripts/enable_robot_ros2.py
 
   DESTINATION lib/${PROJECT_NAME})
 

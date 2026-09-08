@@ -7,6 +7,7 @@ import time
 
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 
 from control_msgs.action import FollowJointTrajectory
@@ -316,9 +317,15 @@ def main():
     )
     try:
         rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            try:
+                rclpy.shutdown()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

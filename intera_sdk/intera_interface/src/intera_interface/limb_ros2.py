@@ -31,7 +31,15 @@ class LimbROS2:
     Point = collections.namedtuple("Point", ["x", "y", "z"])
     Quaternion = collections.namedtuple("Quaternion", ["x", "y", "z", "w"])
 
-    def __init__(self, limb="right", synchronous_pub=False, node=None):
+    def __init__(
+        self,
+        limb="right",
+        synchronous_pub=False,
+        node=None,
+        require_joint_states=True,
+        require_endpoint_state=True,
+        require_tip_states=True,
+    ):
         del synchronous_pub  # ROS 2 publishers are always asynchronous.
 
         self._owns_node = False
@@ -88,14 +96,17 @@ class LimbROS2:
         self._ik_client = self._node.create_client(SolvePositionIK, ns_pkn + "IKService")
         self._fk_client = self._node.create_client(SolvePositionFK, ns_pkn + "FKService")
 
-        err_msg = f"{self.name.capitalize()} limb init failed to get current joint_states"
-        wait_for_ros2(lambda: len(self._joint_angle) > 0, node=self._node, timeout=5.0, timeout_msg=err_msg)
+        if require_joint_states:
+            err_msg = f"{self.name.capitalize()} limb init failed to get current joint_states"
+            wait_for_ros2(lambda: len(self._joint_angle) > 0, node=self._node, timeout=5.0, timeout_msg=err_msg)
 
-        err_msg = f"{self.name.capitalize()} limb init failed to get current endpoint_state"
-        wait_for_ros2(lambda: len(self._cartesian_pose) > 0, node=self._node, timeout=5.0, timeout_msg=err_msg)
+        if require_endpoint_state:
+            err_msg = f"{self.name.capitalize()} limb init failed to get current endpoint_state"
+            wait_for_ros2(lambda: len(self._cartesian_pose) > 0, node=self._node, timeout=5.0, timeout_msg=err_msg)
 
-        err_msg = f"{self.name.capitalize()} limb init failed to get current tip_states"
-        wait_for_ros2(lambda: self._tip_states is not None, node=self._node, timeout=5.0, timeout_msg=err_msg)
+        if require_tip_states:
+            err_msg = f"{self.name.capitalize()} limb init failed to get current tip_states"
+            wait_for_ros2(lambda: self._tip_states is not None, node=self._node, timeout=5.0, timeout_msg=err_msg)
 
     def destroy(self):
         if self._owns_node and self._node is not None:

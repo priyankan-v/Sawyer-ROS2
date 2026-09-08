@@ -35,7 +35,7 @@ def generate_launch_description():
             ),
             Node(
                 package="intera_examples",
-                executable="joint_trajectory_file_playback.py",
+                executable="joint_trajectory_file_playback_ros2.py",
                 name="sdk_joint_trajectory_file_playback",
                 output="screen",
                 arguments=["--file", file_path, "--number_loops", loops],
