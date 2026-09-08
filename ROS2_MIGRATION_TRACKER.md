@@ -16,6 +16,9 @@ This tracker converts the high-level plan into concrete implementation gates.
 - Added shared ROS 2 trajectory action server launch entrypoint for intera_interface.
 - Started read-only intera_interface ROS 2 modules: robot params, joint limits, and wait utility.
 - Added a ROS 1/ROS 2 bridge smoke-test script and executed prerequisite checks.
+- Ported intera_interface and intera_examples build metadata to ROS 2 ament_cmake_python.
+- Built intera_interface and intera_examples successfully with colcon as ROS 2 packages.
+- Verified ROS 2 launch discovery for intera_interface and intera_examples launch files.
 
 ## Package Status Matrix
 
@@ -25,8 +28,8 @@ This tracker converts the high-level plan into concrete implementation gates.
 | intera_common/intera_motion_msgs | ROS 2 interface metadata/build ported | Verify interfaces resolve dependency on intera_core_msgs |
 | intera_common/intera_tools_description | ROS 2 metadata/build ported | Validate xacro and install tree in ROS 2 workspace |
 | sawyer_robot/sawyer_description | ROS 2 metadata/build and launch ported | Validate full desktop RViz2 rendering on target machine |
-| intera_sdk/intera_interface | Started (launch + read-only module ports) | Port package.xml/CMake to ament and make scripts runnable in ROS 2 |
-| intera_sdk/intera_examples | Started (ROS 2 launch files ported) | Port package.xml/CMake to ament and validate launch runtime |
+| intera_sdk/intera_interface | ROS 2 metadata/build and launch ported | Port runtime `rospy` internals to `rclpy` |
+| intera_sdk/intera_examples | ROS 2 metadata/build and launch ported | Port runtime `rospy` internals to `rclpy` |
 
 ## Correct Migration Gates
 
@@ -69,7 +72,7 @@ This tracker converts the high-level plan into concrete implementation gates.
 
 ## Next file targets
 
-- intera_sdk/intera_interface/package.xml
-- intera_sdk/intera_interface/CMakeLists.txt
-- intera_sdk/intera_examples/package.xml
-- intera_sdk/intera_examples/CMakeLists.txt
+- intera_sdk/intera_interface/scripts/joint_trajectory_action_server.py
+- intera_sdk/intera_examples/scripts/joint_trajectory_client.py
+- intera_sdk/intera_examples/scripts/joint_position_joystick.py
+- intera_sdk/intera_examples/scripts/gripper_joystick.py

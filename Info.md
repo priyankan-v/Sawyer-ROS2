@@ -58,6 +58,7 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 
 ## Phase 2 - Low-Risk Software Ports
 
+* [x] Port build metadata (`package.xml`, `CMakeLists.txt`, `setup.py`) for `intera_interface` and `intera_examples` to ROS 2 ament
 * [ ] Port utility modules
 * [ ] Port read-only robot interfaces
 * [x] Start ROS 2 read-only ports: `RobotParams`, `JointLimits`, `wait_for` utility
@@ -97,7 +98,7 @@ A ROS 1-to-ROS 2 bridge or gateway stage is required before commanding the hardw
 
 # Immediate Next Work Items
 
-1. Port package metadata/build systems for `intera_interface` and `intera_examples` so new ROS 2 launch files are runnable.
+1. Port runtime script internals from `rospy` to `rclpy` for launch-critical paths (`joint_trajectory_action_server.py`, `joint_trajectory_client.py`, joystick examples).
 
 2. Extend read-only ROS 2 interface coverage (`head`, `navigator`, `camera` state paths).
 

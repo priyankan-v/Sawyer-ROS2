@@ -1,42 +1,13 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.8)
 project(intera_examples)
 
-find_package(catkin
-  REQUIRED
-  COMPONENTS
-  rospy
-  actionlib
-  sensor_msgs
-  control_msgs
-  trajectory_msgs
-  cv_bridge
-  dynamic_reconfigure
-  intera_core_msgs
-  intera_motion_msgs
-  intera_interface
-)
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 
-catkin_python_setup()
+ament_python_install_package(intera_examples PACKAGE_DIR src/intera_examples)
+ament_python_install_package(intera_external_devices PACKAGE_DIR src/intera_external_devices)
 
-generate_dynamic_reconfigure_options(
-  cfg/SawyerJointSpringsExample.cfg
-)
-
-catkin_package(
-  CATKIN_DEPENDS
-  rospy
-  actionlib
-  sensor_msgs
-  control_msgs
-  trajectory_msgs
-  cv_bridge
-  dynamic_reconfigure
-  intera_core_msgs
-  intera_motion_msgs
-  intera_interface
-)
-
-catkin_install_python(PROGRAMS 
+install(PROGRAMS
   scripts/ik_service_client.py
   scripts/go_to_joint_angles.py
   scripts/joint_position_waypoints.py
@@ -65,22 +36,36 @@ catkin_install_python(PROGRAMS
   scripts/send_random_trajectory.py
   scripts/send_traj_from_file.py
 
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  DESTINATION lib/${PROJECT_NAME})
 
 install(
   DIRECTORY scripts/
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  DESTINATION lib/${PROJECT_NAME}
   USE_SOURCE_PERMISSIONS
 )
 
 install(
   DIRECTORY launch/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  DESTINATION share/${PROJECT_NAME}/launch
   USE_SOURCE_PERMISSIONS
 )
 
 install(
   DIRECTORY share/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/share
+  DESTINATION share/${PROJECT_NAME}/share
   USE_SOURCE_PERMISSIONS
 )
+
+install(
+  DIRECTORY scripts/
+  DESTINATION share/${PROJECT_NAME}/scripts
+  USE_SOURCE_PERMISSIONS
+)
+
+install(
+  DIRECTORY cfg/
+  DESTINATION share/${PROJECT_NAME}/cfg
+  USE_SOURCE_PERMISSIONS
+)
+
+ament_package()

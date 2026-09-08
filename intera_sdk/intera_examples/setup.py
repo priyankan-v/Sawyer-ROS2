@@ -1,9 +1,10 @@
-#! /usr/bin/env python
-from setuptools import setup
-from catkin_pkg.python_setup import generate_distutils_setup
+#!/usr/bin/env python3
+from setuptools import find_packages, setup
 
-d = generate_distutils_setup()
-d['packages'] = ['intera_examples', 'intera_external_devices']
-d['package_dir'] = {'': 'src'}
 
-setup(**d)
+setup(
+	name='intera_examples',
+	version='5.3.0',
+	package_dir={'': 'src'},
+	packages=find_packages(where='src'),
+)
