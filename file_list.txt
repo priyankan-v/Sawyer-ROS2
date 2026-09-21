@@ -1,0 +1,339 @@
+├── intera_common
+│   ├── CHANGELOG.rst
+│   ├── CONTRIBUTING.md
+│   ├── intera_common
+│   │   ├── CMakeLists.txt
+│   │   └── package.xml
+│   ├── intera_core_msgs
+│   │   ├── action
+│   │   │   └── CalibrationCommand.action
+│   │   ├── CMakeLists.txt
+│   │   ├── msg
+│   │   │   ├── AnalogIOState.msg
+│   │   │   ├── AnalogIOStates.msg
+│   │   │   ├── AnalogOutputCommand.msg
+│   │   │   ├── CameraControl.msg
+│   │   │   ├── CameraSettings.msg
+│   │   │   ├── CollisionAvoidanceState.msg
+│   │   │   ├── CollisionDetectionState.msg
+│   │   │   ├── DigitalIOState.msg
+│   │   │   ├── DigitalIOStates.msg
+│   │   │   ├── DigitalOutputCommand.msg
+│   │   │   ├── EndpointNamesArray.msg
+│   │   │   ├── EndpointState.msg
+│   │   │   ├── EndpointStates.msg
+│   │   │   ├── HeadPanCommand.msg
+│   │   │   ├── HeadState.msg
+│   │   │   ├── HomingCommand.msg
+│   │   │   ├── HomingState.msg
+│   │   │   ├── InteractionControlCommand.msg
+│   │   │   ├── InteractionControlState.msg
+│   │   │   ├── IOComponentCommand.msg
+│   │   │   ├── IOComponentConfiguration.msg
+│   │   │   ├── IOComponentStatus.msg
+│   │   │   ├── IODataStatus.msg
+│   │   │   ├── IODeviceConfiguration.msg
+│   │   │   ├── IODeviceStatus.msg
+│   │   │   ├── IONodeConfiguration.msg
+│   │   │   ├── IONodeStatus.msg
+│   │   │   ├── IOStatus.msg
+│   │   │   ├── JointCommand.msg
+│   │   │   ├── JointLimits.msg
+│   │   │   ├── NavigatorState.msg
+│   │   │   ├── NavigatorStates.msg
+│   │   │   ├── RobotAssemblyState.msg
+│   │   │   ├── SEAJointState.msg
+│   │   │   └── URDFConfiguration.msg
+│   │   ├── package.xml
+│   │   └── srv
+│   │       ├── IOComponentCommandSrv.srv
+│   │       ├── SolvePositionFK.srv
+│   │       └── SolvePositionIK.srv
+│   ├── intera_motion_msgs
+│   │   ├── action
+│   │   │   └── MotionCommand.action
+│   │   ├── CMakeLists.txt
+│   │   ├── msg
+│   │   │   ├── EndpointTrackingError.msg
+│   │   │   ├── InterpolatedPath.msg
+│   │   │   ├── JointTrackingError.msg
+│   │   │   ├── MotionStatus.msg
+│   │   │   ├── TrackingOptions.msg
+│   │   │   ├── TrajectoryAnalysis.msg
+│   │   │   ├── Trajectory.msg
+│   │   │   ├── TrajectoryOptions.msg
+│   │   │   ├── Waypoint.msg
+│   │   │   ├── WaypointOptions.msg
+│   │   │   └── WaypointSimple.msg
+│   │   └── package.xml
+│   ├── intera_tools_description
+│   │   ├── CMakeLists.txt
+│   │   ├── meshes
+│   │   │   ├── connector_plate
+│   │   │   │   ├── connector_plate.DAE
+│   │   │   │   └── connector_plate.STL
+│   │   │   ├── electric_gripper
+│   │   │   │   ├── electric_gripper_base.DAE
+│   │   │   │   ├── electric_gripper_base.STL
+│   │   │   │   ├── electric_gripper_w_fingers.DAE
+│   │   │   │   ├── electric_gripper_w_fingers.STL
+│   │   │   │   └── fingers
+│   │   │   │       ├── basic_hard_tip.DAE
+│   │   │   │       ├── basic_hard_tip.STL
+│   │   │   │       ├── basic_soft_tip.DAE
+│   │   │   │       ├── basic_soft_tip.STL
+│   │   │   │       ├── extended_narrow.DAE
+│   │   │   │       ├── extended_narrow.STL
+│   │   │   │       ├── extended_wide.DAE
+│   │   │   │       ├── extended_wide.STL
+│   │   │   │       ├── half_round_tip.DAE
+│   │   │   │       ├── half_round_tip.STL
+│   │   │   │       ├── limiter.DAE
+│   │   │   │       ├── limiter.STL
+│   │   │   │       ├── paddle_tip.DAE
+│   │   │   │       ├── paddle_tip.STL
+│   │   │   │       ├── standard_narrow.DAE
+│   │   │   │       ├── standard_narrow.STL
+│   │   │   │       ├── standard_wide.DAE
+│   │   │   │       └── standard_wide.STL
+│   │   │   ├── pneumatic_gripper
+│   │   │   │   ├── pneumatic_gripper_base.DAE
+│   │   │   │   ├── pneumatic_gripper_base.STL
+│   │   │   │   ├── pneumatic_gripper_w_cup.DAE
+│   │   │   │   └── pneumatic_gripper_w_cup.STL
+│   │   │   └── smart_tool_plate
+│   │   │       ├── smart_tool_plate.DAE
+│   │   │       └── smart_tool_plate.STL
+│   │   ├── package.xml
+│   │   └── urdf
+│   │       ├── connector_plate
+│   │       │   └── connector_plate.xacro
+│   │       ├── controller_box
+│   │       │   └── controller_box.urdf
+│   │       ├── electric_gripper
+│   │       │   ├── example_end_effector.urdf.xacro
+│   │       │   ├── fingers
+│   │       │   │   ├── basic_hard_tip.xacro
+│   │       │   │   ├── basic_soft_tip.xacro
+│   │       │   │   ├── extended_narrow.xacro
+│   │       │   │   ├── extended_wide.xacro
+│   │       │   │   ├── half_round_tip.xacro
+│   │       │   │   ├── none.xacro
+│   │       │   │   ├── paddle_tip.xacro
+│   │       │   │   ├── standard_narrow.xacro
+│   │       │   │   └── standard_wide.xacro
+│   │       │   └── rethink_electric_gripper.xacro
+│   │       ├── null_gripper
+│   │       │   ├── example_end_effector.urdf.xacro
+│   │       │   └── null_gripper.xacro
+│   │       └── pneumatic_gripper
+│   │           ├── example_end_effector.urdf.xacro
+│   │           ├── pneumatic_gripper_base.xacro
+│   │           └── rethink_pneumatic_gripper.xacro
+│   ├── LICENSE
+│   └── README.rst
+├── intera_sdk
+│   ├── CHANGELOG.rst
+│   ├── CONTRIBUTING.md
+│   ├── intera_examples
+│   │   ├── cfg
+│   │   │   └── SawyerJointSpringsExample.cfg
+│   │   ├── CHANGELOG.rst
+│   │   ├── CMakeLists.txt
+│   │   ├── launch
+│   │   │   ├── gripper_joystick.launch
+│   │   │   ├── joint_position_joystick.launch
+│   │   │   ├── joint_trajectory_client.launch
+│   │   │   └── joint_trajectory_file_playback.launch
+│   │   ├── LICENSE
+│   │   ├── package.xml
+│   │   ├── README.rst
+│   │   ├── scripts
+│   │   │   ├── camera_display.py
+│   │   │   ├── constrained_zeroG.py
+│   │   │   ├── fk_service_client.py
+│   │   │   ├── go_to_cartesian_pose.py
+│   │   │   ├── go_to_joint_angles_in_contact.py
+│   │   │   ├── go_to_joint_angles.py
+│   │   │   ├── gripper_cuff_control.py
+│   │   │   ├── gripper_joystick.py
+│   │   │   ├── gripper_keyboard.py
+│   │   │   ├── head_display_image.py
+│   │   │   ├── head_wobbler.py
+│   │   │   ├── ik_service_client.py
+│   │   │   ├── joint_position_file_playback.py
+│   │   │   ├── joint_position_joystick.py
+│   │   │   ├── joint_position_keyboard.py
+│   │   │   ├── joint_position_waypoints.py
+│   │   │   ├── joint_recorder.py
+│   │   │   ├── joint_torque_springs.py
+│   │   │   ├── joint_trajectory_client.py
+│   │   │   ├── joint_trajectory_file_playback.py
+│   │   │   ├── joint_velocity_wobbler.py
+│   │   │   ├── lights_blink.py
+│   │   │   ├── navigator_io.py
+│   │   │   ├── send_random_trajectory.py
+│   │   │   ├── send_traj_from_file.py
+│   │   │   ├── set_interaction_options.py
+│   │   │   └── stop_motion_trajectory.py
+│   │   ├── setup.py
+│   │   ├── share
+│   │   │   └── images
+│   │   │       ├── sawyer_and_baxter.png
+│   │   │       └── sawyer_sdk_research.png
+│   │   └── src
+│   │       ├── intera_examples
+│   │       │   ├── __init__.py
+│   │       │   └── recorder.py
+│   │       └── intera_external_devices
+│   │           ├── getch.py
+│   │           ├── __init__.py
+│   │           └── joystick.py
+│   ├── intera_interface
+│   │   ├── cfg
+│   │   │   ├── SawyerPositionFFJointTrajectoryActionServer.cfg
+│   │   │   ├── SawyerPositionJointTrajectoryActionServer.cfg
+│   │   │   └── SawyerVelocityJointTrajectoryActionServer.cfg
+│   │   ├── CHANGELOG.rst
+│   │   ├── CMakeLists.txt
+│   │   ├── epydoc.config
+│   │   ├── LICENSE
+│   │   ├── package.xml
+│   │   ├── README.rst
+│   │   ├── rosdoc.yaml
+│   │   ├── scripts
+│   │   │   ├── calibrate_arm.py
+│   │   │   ├── enable_robot.py
+│   │   │   ├── home_joints.py
+│   │   │   ├── io_config_editor.py
+│   │   │   ├── joint_trajectory_action_server.py
+│   │   │   └── send_urdf_fragment.py
+│   │   ├── setup.py
+│   │   └── src
+│   │       ├── intera_control
+│   │       │   ├── __init__.py
+│   │       │   └── pid.py
+│   │       ├── intera_dataflow
+│   │       │   ├── __init__.py
+│   │       │   ├── signals.py
+│   │       │   ├── wait_for.py
+│   │       │   └── weakrefset.py
+│   │       ├── intera_interface
+│   │       │   ├── camera.py
+│   │       │   ├── clicksmart_plate.py
+│   │       │   ├── cuff.py
+│   │       │   ├── digital_io.py
+│   │       │   ├── gripper_factory.py
+│   │       │   ├── gripper.py
+│   │       │   ├── head_display.py
+│   │       │   ├── head.py
+│   │       │   ├── __init__.py
+│   │       │   ├── joint_limits.py
+│   │       │   ├── lights.py
+│   │       │   ├── limb.py
+│   │       │   ├── navigator.py
+│   │       │   ├── robot_enable.py
+│   │       │   ├── robot_params.py
+│   │       │   └── settings.py
+│   │       ├── intera_io
+│   │       │   ├── __init__.py
+│   │       │   ├── io_command.py
+│   │       │   └── io_interface.py
+│   │       ├── intera_joint_trajectory_action
+│   │       │   ├── bezier.py
+│   │       │   ├── __init__.py
+│   │       │   ├── joint_trajectory_action.py
+│   │       │   └── minjerk.py
+│   │       └── intera_motion_interface
+│   │           ├── __init__.py
+│   │           ├── interaction_options.py
+│   │           ├── interaction_publisher.py
+│   │           ├── motion_controller_action_client.py
+│   │           ├── motion_trajectory.py
+│   │           ├── motion_waypoint_options.py
+│   │           ├── motion_waypoint.py
+│   │           ├── random_walk.py
+│   │           └── utility_functions.py
+│   ├── intera_sdk
+│   │   ├── CHANGELOG.rst
+│   │   ├── CMakeLists.txt
+│   │   └── package.xml
+│   ├── intera.sh
+│   ├── LICENSE
+│   └── README.rst
+└── sawyer_robot
+    ├── CHANGELOG.rst
+    ├── CONTRIBUTING.md
+    ├── LICENSE
+    ├── README.rst
+    ├── sawyer_description
+    │   ├── CMakeLists.txt
+    │   ├── config
+    │   │   └── sawyer.rviz
+    │   ├── launch
+    │   │   └── test_sawyer_description.launch.test
+    │   ├── meshes
+    │   │   ├── sawyer_ft
+    │   │   │   ├── base.DAE
+    │   │   │   ├── base.STL
+    │   │   │   ├── head.DAE
+    │   │   │   ├── head.STL
+    │   │   │   ├── l0.DAE
+    │   │   │   ├── l0.STL
+    │   │   │   ├── l1.DAE
+    │   │   │   ├── l1.STL
+    │   │   │   ├── l2.DAE
+    │   │   │   ├── l2.STL
+    │   │   │   ├── l3.DAE
+    │   │   │   ├── l3.STL
+    │   │   │   ├── l4.DAE
+    │   │   │   ├── l4.STL
+    │   │   │   ├── l5.DAE
+    │   │   │   ├── l5.STL
+    │   │   │   ├── l6.DAE
+    │   │   │   ├── l6.STL
+    │   │   │   ├── PEDESTAL.DAE
+    │   │   │   └── PEDESTAL.STL
+    │   │   ├── sawyer_mp1
+    │   │   │   ├── l6.DAE
+    │   │   │   └── l6.STL
+    │   │   ├── sawyer_mp3
+    │   │   │   ├── l0.DAE
+    │   │   │   ├── l0.STL
+    │   │   │   ├── l1.DAE
+    │   │   │   └── l1.STL
+    │   │   └── sawyer_pv
+    │   │       ├── base.DAE
+    │   │       ├── base.STL
+    │   │       ├── head.DAE
+    │   │       ├── head.STL
+    │   │       ├── l0.DAE
+    │   │       ├── l0.STL
+    │   │       ├── l1.DAE
+    │   │       ├── l1.STL
+    │   │       ├── l2.DAE
+    │   │       ├── l2.STL
+    │   │       ├── l3.DAE
+    │   │       ├── l3.STL
+    │   │       ├── l4.DAE
+    │   │       ├── l4.STL
+    │   │       ├── l5.DAE
+    │   │       ├── l5.STL
+    │   │       ├── l6.DAE
+    │   │       ├── l6.STL
+    │   │       ├── pedestal.DAE
+    │   │       └── pedestal.STL
+    │   ├── package.xml
+    │   ├── params
+    │   │   └── named_poses.yaml
+    │   └── urdf
+    │       ├── sawyer_base.gazebo.xacro
+    │       ├── sawyer_base.urdf.xacro
+    │       ├── sawyer_electric_gripper.urdf.xacro
+    │       └── sawyer.urdf.xacro
+    ├── sawyer_robot
+    │   ├── CMakeLists.txt
+    │   └── package.xml
+    └── sawyer_robot.rosinstall
+
+56 directories, 282 files
