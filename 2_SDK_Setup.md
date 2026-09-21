@@ -89,46 +89,340 @@ robot.
 
 ## 5. Configure the robot connection
 
-Copy the SDK's environment script to the catkin workspace root **after** the
-build. The script expects `devel/setup.bash` there.
-
+###
 ```bash
-cd /root/sawyer_ros2
-cp intera_sdk/intera.sh ros1_ws/intera.sh
-chmod +x ros1_ws/intera.sh
-nano ros1_ws/intera.sh
+cd /root/sawyer_ros2/ros1_ws/src
+catkin_create_pkg sawyer_ros1_adapter rospy sensor_msgs
+mkdir -p sawyer_ros1_adapter/scripts
+
+nano sawyer_ros1_adapter/scripts/joint_state_adapter.py
 ```
 
-Set these three variables near the top of the copied script, using the actual
-robot hostname and the workstation address on the robot-facing network:
+Paste the following in the above python file
+```python
+#!/usr/bin/env python3
 
-```bash
-robot_hostname="021611CP00085.local"
-your_ip="169.254.24.100"
-ros_version="noetic"
+import json
+import socket
+
+import rospy
+from sensor_msgs.msg import JointState
+
+
+HOST = "127.0.0.1"
+PORT = 5005
+
+
+def main():
+
+    rospy.init_node("sawyer_joint_state_adapter")
+
+    # Create TCP server
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    server_socket.setsockopt(
+        socket.SOL_SOCKET,
+        socket.SO_REUSEADDR,
+        1
+    )
+
+    server_socket.bind((HOST, PORT))
+
+    server_socket.listen(1)
+
+    rospy.loginfo(
+        "Waiting for ROS 2 gateway on %s:%d...",
+        HOST,
+        PORT
+    )
+
+    connection, address = server_socket.accept()
+
+    rospy.loginfo(
+        "ROS 2 gateway connected: %s",
+        address
+    )
+
+    def joint_state_callback(msg):
+
+        data = {
+            "stamp_sec": msg.header.stamp.secs,
+            "stamp_nsec": msg.header.stamp.nsecs,
+
+            "name": list(msg.name),
+            "position": list(msg.position),
+            "velocity": list(msg.velocity),
+            "effort": list(msg.effort)
+        }
+
+        message = json.dumps(data) + "\n"
+
+        try:
+            connection.sendall(
+                message.encode("utf-8")
+            )
+
+        except socket.error as error:
+
+            rospy.logerr(
+                "IPC connection error: %s",
+                error
+            )
+
+            rospy.signal_shutdown(
+                "ROS 2 gateway disconnected"
+            )
+
+    rospy.Subscriber(
+        "/robot/joint_states",
+        JointState,
+        joint_state_callback,
+        queue_size=1,
+        tcp_nodelay=True
+    )
+
+    rospy.loginfo(
+        "Subscribed to /robot/joint_states"
+    )
+
+    rospy.spin()
+
+    connection.close()
+    server_socket.close()
+
+
+if __name__ == "__main__":
+    main()
 ```
-
-The example values match [Docker setup](1_Docker_Setup.md). If the host's
-address or robot address differs, use the address reported by
-`ip route get <robot-ip>` for `your_ip` and make sure `robot_hostname`
-resolves inside the container. The script sets `ROS_MASTER_URI` to the robot
-and `ROS_IP` to the workstation address.
-
-## 6. Open an SDK shell and verify connectivity
-
-Run the script from the workspace root. It opens a new shell with the SDK and
-robot environment loaded; use `exit` to return to the original shell.
-
 ```bash
+chmod +x sawyer_ros1_adapter/scripts/joint_state_adapter.py
+
 cd /root/sawyer_ros2/ros1_ws
-./intera.sh
 
-echo "$ROS_MASTER_URI"
-echo "$ROS_IP"
-rostopic list
-rostopic echo -n 1 /robot/joint_states
+source /opt/ros/noetic/setup.bash
+catkin_make
+
+source devel/setup.bash
+
+rospack find sawyer_ros1_adapter
 ```
 
-The final two commands require a powered, network-reachable robot with its
-ROS master running. Run `./intera.sh` again for each new container shell in
-which you use the SDK.
+Wait and come to the ROS2 workspace in another terminal
+###
+```bash
+cd ~/sawyer_ros2
+
+mkdir -p ros2_ws/src
+
+cd ros2_ws/src
+
+source /opt/ros/humble/setup.bash
+
+ros2 pkg create \
+    --build-type ament_python \
+    --dependencies rclpy sensor_msgs \
+    --node-name joint_state_gateway \
+    sawyer_ros2_gateway
+```
+
+Update the python file '~/sawyer_ros2/ros2_ws/src/sawyer_ros2_gateway/sawyer_ros2_gateway/joint_state_gateway.py'
+```
+#!/usr/bin/env python3
+
+import json
+import socket
+
+import rclpy
+
+from rclpy.node import Node
+from sensor_msgs.msg import JointState
+
+
+HOST = "127.0.0.1"
+PORT = 5005
+
+
+class JointStateGateway(Node):
+
+    def __init__(self):
+
+        super().__init__("sawyer_joint_state_gateway")
+
+        self.publisher = self.create_publisher(
+            JointState,
+            "/joint_states",
+            10
+        )
+
+        self.socket = None
+
+        self.receive_buffer = b""
+
+        self.get_logger().info(
+            "Sawyer ROS 2 joint-state gateway started"
+        )
+
+        # Check socket every 5 ms
+        self.timer = self.create_timer(
+            0.005,
+            self.poll_socket
+        )
+
+    def connect(self):
+
+        try:
+
+            self.socket = socket.socket(
+                socket.AF_INET,
+                socket.SOCK_STREAM
+            )
+
+            self.socket.settimeout(0.2)
+
+            self.socket.connect(
+                (HOST, PORT)
+            )
+
+            self.socket.setblocking(False)
+
+            self.get_logger().info(
+                f"Connected to ROS 1 adapter at "
+                f"{HOST}:{PORT}"
+            )
+
+        except (ConnectionRefusedError, socket.timeout):
+
+            if self.socket is not None:
+                self.socket.close()
+
+            self.socket = None
+
+    def poll_socket(self):
+
+        if self.socket is None:
+
+            self.connect()
+
+            return
+
+        try:
+
+            data = self.socket.recv(8192)
+
+            if not data:
+
+                self.get_logger().warning(
+                    "ROS 1 adapter disconnected"
+                )
+
+                self.socket.close()
+
+                self.socket = None
+
+                return
+
+            self.receive_buffer += data
+
+            while b"\n" in self.receive_buffer:
+
+                line, self.receive_buffer = \
+                    self.receive_buffer.split(
+                        b"\n",
+                        1
+                    )
+
+                if not line:
+                    continue
+
+                self.process_message(line)
+
+        except BlockingIOError:
+
+            pass
+
+        except socket.error as error:
+
+            self.get_logger().warning(
+                f"Socket error: {error}"
+            )
+
+            self.socket.close()
+
+            self.socket = None
+
+    def process_message(self, line):
+
+        try:
+
+            data = json.loads(
+                line.decode("utf-8")
+            )
+
+            msg = JointState()
+
+            msg.header.stamp.sec = \
+                data["stamp_sec"]
+
+            msg.header.stamp.nanosec = \
+                data["stamp_nsec"]
+
+            msg.name = data["name"]
+
+            msg.position = data["position"]
+
+            msg.velocity = data["velocity"]
+
+            msg.effort = data["effort"]
+
+            self.publisher.publish(msg)
+
+        except Exception as error:
+
+            self.get_logger().error(
+                f"Failed to process joint state: {error}"
+            )
+
+
+def main(args=None):
+
+    rclpy.init(args=args)
+
+    node = JointStateGateway()
+
+    try:
+
+        rclpy.spin(node)
+
+    except KeyboardInterrupt:
+
+        pass
+
+    node.destroy_node()
+
+    rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+###
+```bash
+cd ~/sawyer_ros2/ros2_ws
+
+source /opt/ros/humble/setup.bash
+
+colcon build
+
+cd ~/sawyer_ros2/ros2_ws
+
+source /opt/ros/humble/setup.bash
+
+colcon build
+```
+
+###
+```bash
+
+```
+
