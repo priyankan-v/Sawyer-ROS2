@@ -96,6 +96,7 @@ catkin_create_pkg sawyer_ros1_adapter rospy sensor_msgs
 mkdir -p sawyer_ros1_adapter/scripts
 
 nano sawyer_ros1_adapter/scripts/joint_state_adapter.py
+chmod +x ~/sawyer_ros2/ros1_ws/src/sawyer_ros1_adapter/scripts/joint_state_adapter.py
 ```
 
 Paste the following in the above python file
@@ -202,7 +203,7 @@ cd /root/sawyer_ros2/ros1_ws
 source /opt/ros/noetic/setup.bash
 catkin_make
 
-source devel/setup.bash
+source ~/sawyer_ros2/ros1_ws/devel/setup.bash
 
 rospack find sawyer_ros1_adapter
 ```

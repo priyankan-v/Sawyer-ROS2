@@ -1,5 +1,8 @@
 ## Use three terminals.
 
+```bash
+history -c
+```
 Clarify the IP addresses
 ```bash
 getent hosts 021611CP00085.local
@@ -11,14 +14,6 @@ ip route get 169.254.121.3
 ```bash
 docker exec -it sawyer_noetic_pr bash
 ```
-
-```bash
-cd /root/sawyer_ros2/ros1_ws
-
-source /opt/ros/noetic/setup.bash
-source devel/setup.bash
-```
-
 ```bash
 echo $ROS_MASTER_URI
 echo $ROS_IP
@@ -28,8 +23,15 @@ If this is a new shell, you may need to export them again:
 
 ```bash
 export ROS_MASTER_URI=http://021611CP00085.local:11311
-export ROS_IP=<YOUR_WORKING_ETHERNET_IP>
+export ROS_IP=169.254.121.2
 unset ROS_HOSTNAME
+```
+
+```bash
+cd /root/sawyer_ros2/ros1_ws
+
+source /opt/ros/noetic/setup.bash
+source devel/setup.bash
 ```
 
 ```bash
@@ -57,9 +59,7 @@ ros2 run sawyer_ros2_gateway joint_state_gateway
 
 ```bash
 source /opt/ros/humble/setup.bash
-
 source ~/sawyer_ros2/ros2_ws/install/setup.bash
-
 ros2 topic list
 ```
 

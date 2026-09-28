@@ -8,6 +8,8 @@ getent hosts 021611CP00085.local
 ```bash
 sudo ip addr add 169.254.24.100/16 dev enp0s31f6
 
+ip -br addr show enp0s31f6
+
 ip route get 169.254.121.3 # used as ROS_IP
 ```
 
@@ -38,7 +40,7 @@ docker rm sawyer_noetic_pr #Delete the stopped container
 
 #### Enter to the 'sawyer_noetic_p' and oper bash terminal
 ```bash
-docker exec -it sawyer_noetic_p bash
+docker exec -it sawyer_noetic_pr bash
 ```
 
 #### Source and Verify ros1
@@ -57,7 +59,7 @@ getent hosts 021611CP00085.local
 #### 
 ```bash
 export ROS_MASTER_URI=http://169.254.121.3:11311
-export ROS_IP=169.254.24.100
+export ROS_IP=169.254.121.2
 unset ROS_HOSTNAME
 
 echo $ROS_MASTER_URI
