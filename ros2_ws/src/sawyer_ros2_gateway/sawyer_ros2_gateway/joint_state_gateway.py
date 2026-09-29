@@ -12,6 +12,7 @@ from sensor_msgs.msg import JointState
 from intera_core_msgs.msg import (
     EndpointState,
     RobotAssemblyState,
+    JointCommand,
 )
 
 
@@ -53,12 +54,33 @@ class SawyerROS2Gateway(Node):
             )
 
         # ===============================================
+        # ROS 2 command subscriber
+        # ===============================================
+
+        self.joint_command_sub = \
+            self.create_subscription(
+                JointCommand,
+                "/robot/limb/right/joint_command",
+                self.joint_command_callback,
+                1
+            )
+
+        self.get_logger().info(
+            "Subscribed to ROS 2 JointCommand topic"
+        )
+        
+        # ===============================================
         # IPC state
         # ===============================================
 
         self.socket = None
 
+        # ROS 1 -> ROS 2
         self.receive_buffer = b""
+
+        # ROS 2 -> ROS 1
+        self.tx_buffer = b""
+        self.pending_command = None
 
         self.connection_message_printed = False
 
@@ -95,6 +117,8 @@ class SawyerROS2Gateway(Node):
 
             self.socket = sock
             self.receive_buffer = b""
+            self.tx_buffer = b""
+            self.pending_command = None
 
             self.get_logger().info(
                 f"Connected to ROS 1 adapter at "
@@ -115,6 +139,114 @@ class SawyerROS2Gateway(Node):
             self.socket = None
 
     # ===================================================
+    # ROS 2 -> ROS 1 Joint Command
+    # ===================================================
+
+    def joint_command_callback(self, msg):
+
+        packet = {
+
+            "type": "joint_command",
+
+            "header": {
+                "sec": int(msg.header.stamp.sec),
+                "nanosec": int(msg.header.stamp.nanosec),
+                "frame_id": msg.header.frame_id
+            },
+
+            "mode": int(msg.mode),
+
+            "names": list(msg.names),
+
+            "position": list(msg.position),
+            "velocity": list(msg.velocity),
+            "acceleration": list(msg.acceleration),
+            "effort": list(msg.effort)
+        }
+
+        self.queue_command_packet(packet)
+
+    # Command Serialization
+    def queue_command_packet(self, packet):
+
+        if self.socket is None:
+
+            self.get_logger().warning(
+                "JointCommand dropped: "
+                "ROS 1 adapter is not connected"
+            )
+
+            return
+
+        data = (
+            json.dumps(
+                packet,
+                separators=(",", ":")
+            )
+            + "\n"
+        ).encode("utf-8")
+
+        # If nothing is currently being transmitted,
+        # start transmitting this packet.
+        if not self.tx_buffer:
+
+            self.tx_buffer = data
+
+        else:
+
+            # Do not build a long queue of robot commands.
+            # Keep only the most recent waiting command.
+            self.pending_command = data
+
+    # Non-blocking  Transmission
+    def flush_tx_buffer(self):
+
+        if self.socket is None:
+            return
+
+        if not self.tx_buffer:
+            return
+
+        try:
+
+            sent = self.socket.send(
+                self.tx_buffer
+            )
+
+            if sent > 0:
+
+                self.tx_buffer = \
+                    self.tx_buffer[sent:]
+
+            # Current JSON packet completely transmitted.
+            if not self.tx_buffer:
+
+                if self.pending_command is not None:
+
+                    self.tx_buffer = \
+                        self.pending_command
+
+                    self.pending_command = None
+
+        except BlockingIOError:
+
+            # Socket cannot currently accept more bytes.
+            # Try again on next timer callback.
+            pass
+
+        except (
+            BrokenPipeError,
+            ConnectionResetError,
+            OSError
+        ) as error:
+
+            self.get_logger().warning(
+                f"IPC send failed: {error}"
+            )
+
+            self.handle_disconnect()
+
+    # ===================================================
     # Receive IPC
     # ===================================================
 
@@ -125,6 +257,12 @@ class SawyerROS2Gateway(Node):
             self.connect()
 
             return
+        
+        # ROS 2 -> ROS 1
+        self.flush_tx_buffer()
+
+        if self.socket is None:
+            return        
 
         try:
 
@@ -181,6 +319,8 @@ class SawyerROS2Gateway(Node):
 
         self.socket = None
         self.receive_buffer = b""
+        self.tx_buffer = b""
+        self.pending_command = None
 
     # ===================================================
     # Packet dispatcher

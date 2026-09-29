@@ -75,9 +75,21 @@ rostopic echo -n 1 /robot/joint_states
 
 ```
 
+If robot stopped by E-Stop use the following to enable
 ####
 ```bash
+import rospy
+rospy.init_node("sawyer_enable_check", anonymous=True)
 
+import intera_interface
+
+rs = intera_interface.RobotEnable(intera_interface.CHECK_VERSION)
+
+print(rs.state())
+
+rs.enable()
+
+print(rs.state())
 ```
 
 ####

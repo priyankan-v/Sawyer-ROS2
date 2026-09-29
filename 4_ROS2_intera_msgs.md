@@ -447,6 +447,7 @@ if __name__ == "__main__":
     main()
 ```
 
+# ROS1 commands after change
 ```bash
 chmod +x \
 /root/sawyer_ros2/ros1_ws/src/sawyer_ros1_adapter/scripts/joint_state_adapter.py
@@ -874,6 +875,7 @@ if __name__ == "__main__":
     main()
 ```
 
+# ROS2 run commands
 ```bash
 cd ~/sawyer_ros2/ros2_ws
 
