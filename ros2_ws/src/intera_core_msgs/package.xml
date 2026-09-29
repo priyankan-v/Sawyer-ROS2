@@ -39,6 +39,10 @@
     geometry_msgs
   </depend>
 
+  <depend>
+    sensor_msgs
+  </depend>
+
 
   <member_of_group>
     rosidl_interface_packages
