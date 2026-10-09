@@ -113,8 +113,8 @@ Create a workspace:
 
 ```bash
 cd ~
-mkdir -p saw_rs_t
-cd saw_rs_t
+mkdir -p sawyer_rs
+cd sawyer_rs
 ```
 
 Create:
@@ -127,7 +127,7 @@ Use the following configuration:
 
 ```toml
 [workspace]
-name = "sawyer_bridge_test"
+name = "sawyer_bridge"
 channels = ["https://prefix.dev/conda-forge"]
 platforms = ["linux-64"]
 
@@ -173,7 +173,7 @@ pixi install
 Enter Noetic:
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e noetic
 ```
 
@@ -216,7 +216,7 @@ python -c "import rosgraph_msgs; print(rosgraph_msgs.__file__)"
 It should point inside:
 
 ```text
-~/saw_rs_t/.pixi/envs/noetic/
+~/sawyer_rs/.pixi/envs/noetic/
 ```
 
 Verify `genmsg`:
@@ -238,7 +238,7 @@ exit
 Enter Humble:
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e humble
 ```
 
@@ -281,7 +281,7 @@ python -c "import rclpy; print(rclpy.__file__)"
 It should point inside:
 
 ```text
-~/saw_rs_t/.pixi/envs/humble/lib/python3.12/site-packages/
+~/sawyer_rs/.pixi/envs/humble/lib/python3.12/site-packages/
 ```
 
 Verify the compiled Python extension:
@@ -309,7 +309,7 @@ exit
 Search RoboStack Humble:
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 
 pixi search ros-humble-ros1-bridge \
   -c https://prefix.dev/robostack-humble
@@ -331,7 +331,7 @@ If no package is found, build `ros1_bridge` from source.
 Create a build workspace:
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 mkdir -p bridge_ws/src
 cd bridge_ws/src
 ```
@@ -358,7 +358,7 @@ master
 Return to the workspace:
 
 ```bash
-cd ~/saw_rs_t/bridge_ws
+cd ~/sawyer_rs/bridge_ws
 ```
 
 ---
@@ -370,7 +370,7 @@ Start from a clean terminal.
 Enter Humble:
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e humble
 ```
 
@@ -438,7 +438,7 @@ rospack find geometry_msgs
 Expected paths should point under:
 
 ```text
-~/saw_rs_t/.pixi/envs/noetic/share/
+~/sawyer_rs/.pixi/envs/noetic/share/
 ```
 
 Check the ROS 1 message definition:
@@ -481,7 +481,7 @@ All of these commands should succeed before building the bridge.
 Go to:
 
 ```bash
-cd ~/saw_rs_t/bridge_ws
+cd ~/sawyer_rs/bridge_ws
 ```
 
 Clean any previous attempt:
@@ -520,7 +520,7 @@ CMake deprecation warnings can normally be ignored if the package finishes succe
 Source the new bridge overlay:
 
 ```bash
-source ~/saw_rs_t/bridge_ws/install/local_setup.bash
+source ~/sawyer_rs/bridge_ws/install/local_setup.bash
 ```
 
 Verify:
@@ -578,7 +578,7 @@ Before connecting Sawyer, perform a localhost test.
 ## Terminal 1 — ROS 1 Master
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e noetic
 roscore
 ```
@@ -588,7 +588,7 @@ Leave it running.
 ## Terminal 2 — Bridge
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e humble
 ```
 
@@ -619,7 +619,7 @@ Leave it running.
 ## Terminal 3 — ROS 1 Publisher
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e noetic
 ```
 
@@ -632,7 +632,7 @@ rostopic pub -r 2 /bridge_test std_msgs/String "data: 'hello from ROS1'"
 ## Terminal 4 — ROS 2 Subscriber
 
 ```bash
-cd ~/saw_rs_t
+cd ~/sawyer_rs
 pixi shell -e humble
 ```
 
@@ -757,7 +757,7 @@ The bridge-generation script cannot see the ROS 1 Python packages.
 Fix:
 
 ```bash
-export ROS1_PREFIX="$HOME/saw_rs_t/.pixi/envs/noetic"
+export ROS1_PREFIX="$HOME/sawyer_rs/.pixi/envs/noetic"
 
 export PYTHONPATH="$ROS1_PREFIX/lib/python3.12/site-packages:$PYTHONPATH"
 ```
@@ -843,7 +843,7 @@ rosmsg show sensor_msgs/JointState
 Delete the previous bridge build completely:
 
 ```bash
-cd ~/saw_rs_t/bridge_ws
+cd ~/sawyer_rs/bridge_ws
 rm -rf build install log
 ```
 
