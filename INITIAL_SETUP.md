@@ -595,7 +595,7 @@ pixi shell -e humble
 Configure the mixed environment:
 
 ```bash
-export ROS1_PREFIX="$HOME/saw_rs_t/.pixi/envs/noetic"
+export ROS1_PREFIX="$HOME/sawyer_rs/.pixi/envs/noetic"
 
 export PATH="$ROS1_PREFIX/bin:$PATH"
 export PKG_CONFIG_PATH="$ROS1_PREFIX/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
@@ -603,7 +603,7 @@ export ROS_PACKAGE_PATH="$ROS1_PREFIX/share"
 export PYTHONPATH="$ROS1_PREFIX/lib/python3.12/site-packages:$PYTHONPATH"
 export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$ROS1_PREFIX/lib:${LD_LIBRARY_PATH:-}"
 
-source ~/saw_rs_t/bridge_ws/install/local_setup.bash
+source ~/sawyer_rs/bridge_ws/install/local_setup.bash
 
 export ROS_MASTER_URI=http://localhost:11311
 ```
